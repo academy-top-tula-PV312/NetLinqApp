@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetLinqApp", "NetLinqApp\NetLinqApp.csproj", "{B9337F99-1D50-4E72-93B4-57D82AD48995}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9337F99-1D50-4E72-93B4-57D82AD48995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9337F99-1D50-4E72-93B4-57D82AD48995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9337F99-1D50-4E72-93B4-57D82AD48995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9337F99-1D50-4E72-93B4-57D82AD48995}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {496B0E85-E5C6-4A98-A3CB-2B022FA6050A}
+	EndGlobalSection
+EndGlobal
