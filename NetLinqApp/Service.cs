@@ -8,15 +8,20 @@ namespace NetLinqApp
 {
     public static class ServiceApp
     {
+        static List<Company> list = new List<Company>()
+        {
+            new(){ Title = "Yandex", City = "Moscow" },
+            new(){ Title = "Ozon", City = "St.Peterburg" },
+            new(){ Title = "Mail", City = "Moscow" },
+            new(){ Title = "Avito", City = "Kazan" },
+        };
+        public static Employee InitEmployee()
+        {
+            return new() { Name = "Bobby", Age = 25, Email = "bobby@mail.ru", Langs = { "C++", "C#" }, Company = list[1] };
+        }
         public static List<Employee> Init()
         {
-            List<Company> list = new List<Company>()
-            {
-                new(){ Title = "Yandex" },
-                new(){ Title = "Ozon" },
-                new(){ Title = "Mail" },
-                new(){ Title = "Avito" },
-            };
+            
 
             return new List<Employee>()
             {

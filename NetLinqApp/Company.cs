@@ -9,5 +9,6 @@ namespace NetLinqApp
     public class Company
     {
         public string Title { get; set; } = null!;
+        public string? City { get; set; }
     }
 }

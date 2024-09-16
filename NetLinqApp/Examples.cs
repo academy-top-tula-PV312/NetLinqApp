@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace NetLinqApp
 {
+    class User
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string? Company { get; set; }
+    }
+
     public class Examples
     {
         class EmployeeEmail
@@ -290,6 +300,169 @@ namespace NetLinqApp
                                                           .ThenByDescending(e => e.Age);
             ServiceApp.PrintCollection(employeesOrderCompanyAgeMethod);
 
+        }
+
+        public static void XmlWelcomeExample()
+        {
+            XmlDocument document = new XmlDocument();
+            document.Load("example.xml");
+
+            XmlElement? root = document.DocumentElement;
+
+            if (root is not null)
+            {
+                foreach (XmlElement element in root)
+                {
+                    foreach (XmlAttribute attribute in element.Attributes)
+                        Console.Write($"{attribute.Name}: {attribute.Value} ");
+                    Console.Write("\t| ");
+
+                    foreach (XmlElement node in element.ChildNodes)
+                    {
+                        Console.Write($"{node.Name}: {node.InnerText} ");
+
+
+                        //if(node.Name == "name")
+                        //    Console.Write($" Name: {node.InnerText}");
+                        //if (node.Name == "age")
+                        //    Console.Write($" Age: {node.InnerText} ");
+                    }
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        public static void XmlCreateElementExample()
+        {
+            User user = new() { Name = "Mikky", Age = 30, Company = "Mail Group" };
+
+            XmlDocument document = new XmlDocument();
+            document.Load("example.xml");
+            XmlElement? root = document.DocumentElement;
+
+            XmlElement elementNew = document.CreateElement("user");
+
+            XmlAttribute attributeCompany = document.CreateAttribute("company");
+
+            XmlElement elementName = document.CreateElement("name");
+            XmlElement elementAge = document.CreateElement("age");
+
+            XmlText companyText = document.CreateTextNode(user.Company);
+            XmlText nameText = document.CreateTextNode(user.Name);
+            XmlText ageText = document.CreateTextNode(user.Age.ToString());
+
+            attributeCompany.AppendChild(companyText);
+            elementName.AppendChild(nameText);
+            elementAge.AppendChild(ageText);
+
+            elementNew.Attributes.Append(attributeCompany);
+            elementNew.AppendChild(elementName);
+            elementNew.AppendChild(elementAge);
+
+            root?.AppendChild(elementNew);
+
+            document.Save("example.xml");
+
+        }
+
+        public static void XmlSerializationExample()
+        {
+            //var employees = ServiceApp.Init();
+            //var employee = ServiceApp.InitEmployee();
+
+            //XmlSerializer serializer = new XmlSerializer(typeof(Employee));
+
+            //using(FileStream stream = File.OpenWrite("employee.xml"))
+            //{
+            //    serializer.Serialize(stream, employee);
+            //}
+
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Employee>));
+
+            //using (FileStream stream = File.OpenWrite("employees.xml"))
+            //{
+            //    serializer.Serialize(stream, employees);
+            //}
+
+            using (FileStream reader = new FileStream("employees.xml", FileMode.Open))
+            {
+                var empls = serializer.Deserialize(reader) as List<Employee>;
+
+                foreach (var e in empls)
+                {
+                    Console.WriteLine($"{e.Name} {e.Age} {e.Email}");
+                    Console.WriteLine($"\t{e.Company.Title} {e.Company.City}");
+                    string langs = "";
+                    foreach (var a in e.Langs)
+                        langs += a + " ";
+                    Console.WriteLine($"\t{langs}");
+                    Console.WriteLine();
+                }
+
+            }
+        }
+
+        public static void XmlXPathExample()
+        {
+            XmlDocument document = new XmlDocument();
+            document.Load("employees.xml");
+            XmlElement? root = document.DocumentElement;
+
+            XmlNodeList? nodeList = root?.SelectNodes("//City");
+
+            if (nodeList is not null)
+            {
+                foreach (XmlNode node in nodeList)
+                    Console.WriteLine($"{node.InnerText}\n");
+            }
+        }
+
+        public static void XmlLinqCreateExample()
+        {
+            var employee = ServiceApp.InitEmployee();
+
+            //XDocument document = new XDocument();
+
+            //XElement root = new XElement("employee");
+
+            //XElement name = new("name", employee.Name);
+            //XElement age = new("age", employee.Age);
+            //XElement email = new("email", employee.Email);
+
+            //XElement company = new("company");
+            //XElement title = new("title", employee.Company.Title);
+            //XAttribute city = new("city", employee.Company.City!);
+            //company.Add(title, city);
+
+            //XElement langs = new("langs");
+            //foreach(var l in employee.Langs)
+            //{
+            //    XElement lang = new("lang", l);
+            //    langs.Add(lang);
+            //}
+
+            //root.Add(name, age, email, company, langs);
+
+            //document.Add(root);
+            //document.Save("employee_linq.xml");
+
+            XElement langs = new XElement("langs");
+            foreach (var l in employee.Langs)
+            {
+                XElement lang = new("lang", l);
+                langs.Add(lang);
+            }
+
+            XDocument document = new XDocument(new XElement("employee",
+                new XElement("name", employee.Name),
+                new XElement("age", employee.Age),
+                new XElement("email", employee.Email),
+                new XElement("company",
+                    new XAttribute("city", employee.Company.City),
+                    new XElement("title", employee.Company.Title)),
+                langs
+                ));
+            document.Save("employee_linq_quick.xml");
         }
     }
 }

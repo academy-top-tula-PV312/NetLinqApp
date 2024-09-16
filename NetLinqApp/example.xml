@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<users>
+	
+	<user company="Yandex" city="Moscow">
+		<name>Bobby</name>
+		<age>32</age>
+	</user>
+
+	<user company="Ozon">
+		<name>Sammy</name>
+		<age>25</age>
+	</user>
+
+	<user city="Tula">
+		<name>Jimmy</name>
+		<age>19</age>
+	</user>
+
+</users>
