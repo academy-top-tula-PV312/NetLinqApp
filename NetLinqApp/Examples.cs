@@ -367,8 +367,8 @@ namespace NetLinqApp
 
         public static void XmlSerializationExample()
         {
-            //var employees = ServiceApp.Init();
-            //var employee = ServiceApp.InitEmployee();
+            var employees = ServiceApp.Init();
+            var employee = ServiceApp.InitEmployee();
 
             //XmlSerializer serializer = new XmlSerializer(typeof(Employee));
 
@@ -379,27 +379,27 @@ namespace NetLinqApp
 
             XmlSerializer serializer = new XmlSerializer(typeof(List<Employee>));
 
-            //using (FileStream stream = File.OpenWrite("employees.xml"))
-            //{
-            //    serializer.Serialize(stream, employees);
-            //}
-
-            using (FileStream reader = new FileStream("employees.xml", FileMode.Open))
+            using (FileStream stream = File.OpenWrite("employees.xml"))
             {
-                var empls = serializer.Deserialize(reader) as List<Employee>;
-
-                foreach (var e in empls)
-                {
-                    Console.WriteLine($"{e.Name} {e.Age} {e.Email}");
-                    Console.WriteLine($"\t{e.Company.Title} {e.Company.City}");
-                    string langs = "";
-                    foreach (var a in e.Langs)
-                        langs += a + " ";
-                    Console.WriteLine($"\t{langs}");
-                    Console.WriteLine();
-                }
-
+                serializer.Serialize(stream, employees);
             }
+
+            //using (FileStream reader = new FileStream("employees.xml", FileMode.Open))
+            //{
+            //    var empls = serializer.Deserialize(reader) as List<Employee>;
+
+            //    foreach (var e in empls)
+            //    {
+            //        Console.WriteLine($"{e.Name} {e.Age} {e.Email}");
+            //        Console.WriteLine($"\t{e.Company.Title} {e.Company.City}");
+            //        string langs = "";
+            //        foreach (var a in e.Langs)
+            //            langs += a + " ";
+            //        Console.WriteLine($"\t{langs}");
+            //        Console.WriteLine();
+            //    }
+
+            //}
         }
 
         public static void XmlXPathExample()
